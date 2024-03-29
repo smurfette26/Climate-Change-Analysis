@@ -4,5 +4,9 @@ run = "python app.py"
 modules = ["python-3.10:v25-20230920-d4ad2e4"]
 
 [[ports]]
+localPort = 5000
+externalPort = 5000
+
+[[ports]]
 localPort = 8080
 externalPort = 80
