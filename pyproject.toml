@@ -9,6 +9,8 @@ packages = [{include = "repl_nix_deployca02"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 flask = "^3.0.2"
+flask-sqlalchemy = "^3.1.1"
+werkzeug = "^3.0.1"
 
 
 [build-system]
