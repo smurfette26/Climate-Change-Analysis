@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, template_rendered
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 
 @app.route("/preprocessing")
