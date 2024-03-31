@@ -1,11 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, template_rendered
 
 app = Flask(__name__)
 
 
+@app.route("/preprocessing")
+def preprocessing():
+  data = {}
+  return render_template('pre_processing.html', context=data)
+
+
 @app.route("/")
 def myApp():
-  return render_template('home.html')
+  data = {}
+  return render_template('home.html', context=data)
 
 
 print(__name__)
