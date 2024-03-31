@@ -20,9 +20,13 @@ app = Flask(__name__)
 #app.config['UPLOAD_FOLDER'] = '/static/uploads'
 app.config['UPLOAD_PATH'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
+app.config['UPLOAD_EXTENSIONS'] = ['.csv']
 
 
 def data_processing(filename):
+
+  dataprocessed_values = {}
+  
   data = read_csv(filename)
   X = data.drop(["sales"], axis=1)
   y = data['sales']
@@ -33,33 +37,38 @@ def data_processing(filename):
   Encoded = LE.fit_transform(X[['influencer']])
   D_influencer = DataFrame(Encoded)
   D_influencer.columns = ['encoded influencer']
-  D_influencer.join(X[['influencer']])
+  encoded_data = D_influencer.join(X[['influencer']])
+  dataprocessed_values['encoded_data'] =encoded_data
+  
+  # ##Normalization
+  # normal_f = StandardScaler()
 
-  ##Normalization
-  normal_f = StandardScaler()
+  # X = data.drop(["sales", 'influencer'], axis=1)
+  # K = normal_f.fit_transform(X)
+  # header = X.columns
+  # K = DataFrame(K)
+  # K.columns = header
+  # dataprocessed_values["normalization"]=K
+  
+  # ##Missing value detection
+  # data.isnull().sum()
+  # data.fillna(0, inplace=True)
+  # #print(data.isnull().sum())
+  # dataprocessed_values["missing_value"] = data.isnull().sum()
+  # correlation = data.corr()
 
-  X = data.drop(["sales", 'influencer'], axis=1)
-  K = normal_f.fit_transform(X)
-  header = X.columns
-  K = DataFrame(K)
-  K.columns = header
-
-  ##Missing value detection
-  data.isnull().sum()
-  data.fillna(0, inplace=True)
-  print(data.isnull().sum())
-
-  correlation = data.corr()
-
+  return dataprocessed_values
+  
 
 @app.route("/preprocessing/<filename>")
 def preprocessing(filename=None):
-  if not filename:
+  if filename:
     data = {}
     print(filename)
     file_name_with_path = os.path.join(app.config['UPLOAD_PATH'], filename)
-    df = read_csv(file_name_with_path)
-    return jsonify(df.to_dict())
+    processed_data = data_processing(file_name_with_path)
+    print(processed_data)
+    #return jsonify(processed_data)
     return render_template("pre_processing.html", context=data)
 
   return render_template('pre_processing.html')
@@ -69,11 +78,13 @@ def preprocessing(filename=None):
 def upload_file():
   if request.method == 'POST':
     f = request.files['file']
-    #f.save(secure_filename(f.filename))
-
     filename = secure_filename(f.filename)
-    f.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-    return redirect(url_for('preprocessing', filename=filename))
+    if filename != '':
+      file_ext = os.path.splitext(filename)[1]
+      if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+        return f"{file_ext} file extensions not supported ", 400
+      f.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+      return redirect(url_for('preprocessing', filename=filename))
   else:
     return redirect(url_for('myApp'))
 
