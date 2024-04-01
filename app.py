@@ -23,42 +23,46 @@ app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.csv']
 
 
-    
 @app.route('/encoding')
 def encoding():
-    # Perform Encoding operation here
-    filename = request.args.get('filename')
-    file_name_with_path = os.path.join(app.config['UPLOAD_PATH'], filename)
-    data = read_csv(file_name_with_path)
-    X = data.drop(["sales"], axis=1)
-    y = data['sales']
-    k = DataFrame(y)
+  # Perform Encoding operation here
+  filename = request.args.get('filename')
+  file_name_with_path = os.path.join(app.config['UPLOAD_PATH'], filename)
+  data = read_csv(file_name_with_path)
+  X = data.drop(["sales"], axis=1)
+  y = data['sales']
+  k = DataFrame(y)
 
-    #X = data.drop(["sales"] , axis = 1)
-    LE = OrdinalEncoder(categories=[['Mega', 'Micro', 'Nano', 'Macro']])
-    Encoded = LE.fit_transform(X[['influencer']])
-    D_influencer = DataFrame(Encoded)
-    D_influencer.columns = ['encoded influencer']
-    encoded_data = D_influencer.join(X[['influencer']])
-    table_html = encoded_data.to_html(classes='data')
+  #X = data.drop(["sales"] , axis = 1)
+  LE = OrdinalEncoder(categories=[['Mega', 'Micro', 'Nano', 'Macro']])
+  Encoded = LE.fit_transform(X[['influencer']])
+  D_influencer = DataFrame(Encoded)
+  D_influencer.columns = ['encoded influencer']
+  encoded_data = D_influencer.join(X[['influencer']])
+  table_html = encoded_data.to_html(classes='data')
   # Pass HTML string to template
-    return render_template('data1.html', table=table_html,heading="Encoded Data")
-    #return f"Encoding operation performed - {filename}"
+  return render_template('data1.html',
+                         table=table_html,
+                         heading="Encoded Data")
+  #return f"Encoding operation performed - {filename}"
+
 
 @app.route('/missing_value_detection')
 def missing_value_detection():
-    # ##Missing value detection
+  # ##Missing value detection
   filename = request.args.get('filename')
   file_name_with_path = os.path.join(app.config['UPLOAD_PATH'], filename)
   print(file_name_with_path)
   data = read_csv(file_name_with_path)
-  print(data)
-  missing_Data = data.isnull().sum()
-  filled_with_na_data = data.fillna(0, inplace=True)
-  print(missing_Data)
-  table_html = missing_Data.to_html(classes='data')
-  #return table_html
-  return render_template('data1.html', table=table_html)
+  data.isnull().sum()
+
+  data.fillna(0, inplace=True)
+  missing_data = data.isnull().sum()
+  #return the result
+  return render_template('data1.html',
+                         table=missing_data,
+                         heading="Missing Data")
+
 
 @app.route('/normalization')
 def normalization():
@@ -76,16 +80,18 @@ def normalization():
   K = DataFrame(K)
   K.columns = header
   table_html = K.to_html(classes='data')
-  return render_template('data1.html', table=table_html,heading="Normalised Data")
+  return render_template('data1.html',
+                         table=table_html,
+                         heading="Normalised Data")
 
 
 @app.route("/preprocessing/<filename>")
 def preprocessing(filename=None):
   if filename:
-    data = {"filename":filename}
+    data = {"filename": filename}
     return render_template("pre_processing.html", context=data)
   else:
-    return render_template('pre_processing.html',context={})
+    return render_template('pre_processing.html', context={})
 
 
 @app.route('/uploader', methods=['GET', 'POST'])
