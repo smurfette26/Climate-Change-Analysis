@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Climate Watch</title>
+  <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
+</head>
+
+<body>
+  <h1>Welcome to Climate Watch</h1>
+  <p>This is a website that provides information about emissions of gases by different sectors of countries.</p>
+
+  <!-- Filters Section -->
+  <h2>Filters</h2>
+  <form id="filter-form" action="{{url_for('filter_data')}}" method="post">
+    <label for="country-select">Country:</label>
+    <select name="country" id="country-select">
+      <option value="india">India</option>
+      <option value="ireland">Ireland</option>
+      <!-- Add more countries as needed -->
+    </select>
+
+    <label for="sector-select">Sector:</label>
+    <select name="sector" id="sector-select">
+      <option value= Energy > Energy </option>
+      <option value= Industrial Processes and Product Use > Industrial Processes and Product Use </option>
+      <option value= Other > Other </option>
+      <option value= Total excluding LULUCF > Total excluding LULUCF </option>
+      <option value= Waste > Waste </option>
+      <option value= Total excluding LUCF > Total excluding LUCF </option>
+      <option value= Total including LUCF > Total including LUCF </option>
+      <option value= Industrial Processes > Industrial Processes </option>
+      <option value= Agriculture > Agriculture </option>
+      <option value= Land-Use Change and Forestry > Land-Use Change and Forestry </option>
+      <option value= Bunker Fuels > Bunker Fuels </option>
+      <option value= Electricity/Heat > Electricity/Heat </option>
+      <option value= Building > Building </option>
+      <option value= Manufacturing/Construction > Manufacturing/Construction </option>
+      <option value= Transportation > Transportation </option>
+      <option value= Other Fuel Combustion > Other Fuel Combustion </option>
+      <option value= Fugitive Emissions > Fugitive Emissions </option>
+      <option value= Land Use, Land-Use Change and Forestry > Land Use, Land-Use Change and Forestry </option>
+      <option value= Total GHG emissions with LULUCF > Total GHG emissions with LULUCF </option>
+      <option value= Total GHG emissions without LULUCF > Total GHG emissions without LULUCF </option>
+      <option value= Total GHG emissions excluding LULUCF/LUCF > Total GHG emissions excluding LULUCF/LUCF </option>
+      <option value= Total GHG emissions including LULUCF/LUCF > Total GHG emissions including LULUCF/LUCF </option>
+      <option value= Cement > Cement </option>
+      <option value= Coal > Coal </option>
+      <option value= Gas > Gas </option>
+      <option value= Gas flaring > Gas flaring </option>
+      <option value= Oil > Oil </option>
+      <option value= Total fossil fuels and cement > Total fossil fuels and cement </option>
+    </select>
+//select gases
+    <label for="gas-select">Gas:</label>
+    <select name="gas" id="gas-select">
+      <option value= CH4 > CH4 </option>
+      <option value= CO2 > CO2 </option>
+      <option value= KYOTOGHG > KYOTOGHG </option>
+      <option value= N2O > N2O </option>
+      <option value= All GHG > All GHG </option>
+      <option value= F-Gas > F-Gas </option>
+      <option value= Aggregate GHGs > Aggregate GHGs </option>
+      <option value= Aggregate F-gases > Aggregate F-gases </option>
+    </select>
+
+    <label for="Start-Year">Start-Year:</label>
+    <select name="start_year" id="year-select">
+      <option value= 1990 > 1990 </option>
+      <option value= 1991 > 1991 </option>
+      <option value= 1992 > 1992 </option>
+      <option value= 1993 > 1993 </option>
+      <option value= 1994 > 1994 </option>
+      <option value= 1995 > 1995 </option>
+      <option value= 1996 > 1996 </option>
+      <option value= 1997 > 1997 </option>
+      <option value= 1998 > 1998 </option>
+      <option value= 1999 > 1999 </option>
+      <option value= 2000 > 2000 </option>
+      <option value= 2001 > 2001 </option>
+      <option value= 2002 > 2002 </option>
+      <option value= 2003 > 2003 </option>
+      <option value= 2004 > 2004 </option>
+      <option value= 2005 > 2005 </option>
+      <option value= 2006 > 2006 </option>
+      <option value= 2007 > 2007 </option>
+      <option value= 2008 > 2008 </option>
+      <option value= 2009 > 2009 </option>
+      <option value= 2010 > 2010 </option>
+      <option value= 2011 > 2011 </option>
+      <option value= 2012 > 2012 </option>
+      <option value= 2013 > 2013 </option>
+      <option value= 2014 > 2014 </option>
+      <option value= 2015 > 2015 </option>
+      <option value= 2016 > 2016 </option>
+      <option value= 2017 > 2017 </option>
+      <option value= 2018 > 2018 </option>
+      <option value= 2019 > 2019 </option>
+      <option value= 2020 > 2020 </option>
+      <!-- Add more years as needed -->
+    </select>
+
+    <label for="End-Year">End-Year:</label>
+    <select name="end_year" id="year-select">
+      <option value= 1990 > 1990 </option>
+      <option value= 1991 > 1991 </option>
+      <option value= 1992 > 1992 </option>
+      <option value= 1993 > 1993 </option>
+      <option value= 1994 > 1994 </option>
+      <option value= 1995 > 1995 </option>
+      <option value= 1996 > 1996 </option>
+      <option value= 1997 > 1997 </option>
+      <option value= 1998 > 1998 </option>
+      <option value= 1999 > 1999 </option>
+      <option value= 2000 > 2000 </option>
+      <option value= 2001 > 2001 </option>
+      <option value= 2002 > 2002 </option>
+      <option value= 2003 > 2003 </option>
+      <option value= 2004 > 2004 </option>
+      <option value= 2005 > 2005 </option>
+      <option value= 2006 > 2006 </option>
+      <option value= 2007 > 2007 </option>
+      <option value= 2008 > 2008 </option>
+      <option value= 2009 > 2009 </option>
+      <option value= 2010 > 2010 </option>
+      <option value= 2011 > 2011 </option>
+      <option value= 2012 > 2012 </option>
+      <option value= 2013 > 2013 </option>
+      <option value= 2014 > 2014 </option>
+      <option value= 2015 > 2015 </option>
+      <option value= 2016 > 2016 </option>
+      <option value= 2017 > 2017 </option>
+      <option value= 2018 > 2018 </option>
+      <option value= 2019 > 2019 </option>
+      <option value= 2020 > 2020 </option>
+     
+    </select>
+
+    <button type="submit">Apply Filters</button>
+  </form>
+
+
+  <div id="results">
+    {% for table in tables %}
+        {{ table|safe }}
+    {% endfor %}
+  </div>
+  
+  <script src="coutry_name.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
