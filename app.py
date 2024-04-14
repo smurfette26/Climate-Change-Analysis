@@ -84,7 +84,7 @@ class Filter:
 
 @app.route("/")
 def myApp():
-  return render_template('home2.html')
+  return render_template('home.html')
 
 
 @app.route("/filter_data", methods=["GET", "POST"])
@@ -114,11 +114,11 @@ def filter_data():
     filtered_data = fil.FilterByYear(j)
     print(filtered_data)
     # Pass the filtered DataFrame to the template for rendering
-    return render_template('home2.html',
+    return render_template('home.html',
                            table=filtered_data.to_html(classes='data',
                                                        index=False))
   else:
-    return render_template('home2.html')
+    return render_template('home.html')
 
 
 @app.route("/climate")
