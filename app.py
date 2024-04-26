@@ -2,15 +2,18 @@ from flask import Flask, render_template, request
 import sqlite3
 import pandas as pd
 from filter_data import Filter
+from pandas import read_csv
+
 
 app = Flask(__name__)
 
 conn = sqlite3.connect('climate.db')
 
-df = pd.read_sql_query("select * from climate", conn)
-
+#df = pd.read_sql_query("select * from climate", conn)
+df = read_csv('climate.csv')
 
 @app.route("/")
+
 def myApp():
   return render_template('home.html')
 
@@ -30,10 +33,13 @@ def filter_data():
     if gas == "None":
       gas = None
 
+
+
     fil = Filter(country, sector, gas)
 
     i = fil.FilterByCountry(df)
     filtered_data = fil.FilterBySector(i)
+    
 
     # Pass the filtered DataFrame to the template for rendering
     return render_template('home.html',
@@ -52,3 +58,5 @@ def climate():
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", debug=True)
+
+

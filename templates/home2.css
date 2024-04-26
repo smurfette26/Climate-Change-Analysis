@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Climate Watch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    select, button {
+      padding: 8px;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Welcome to Climate Watch</h1>
+  <p>This is a website that provides information about emissions of gases by different sectors of countries.</p>
+
+  <!-- Filters Section -->
+  <h2>Filters</h2>
+  <form id="filter-form" action="{{url_for('filter_data')}}" method="post">
+    <label for="country-select">Country:</label>
+    <select name="country" id="country-select">
+      <option value="None">None</option>
+      <!-- Options here -->
+    </select>
+    <label for="sector-select">Sector:</label>
+    <select name="sector" id="sector-select">
+      <option value="None">None</option>
+      <!-- Options here -->
+    </select>
+    <label for="gas-select">Gas:</label>
+    <select name="gas" id="gas-select">
+      <option value="None">None</option>
+      <!-- Options here -->
+    </select>
+    <button type="submit">Apply Filters</button>
+  </form>
+
+  <h2>Data Table</h2>
+  <div class="table-container">
+    <!-- Table data will go here -->
+  </div>
+</body>
+</html>
