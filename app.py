@@ -9,8 +9,8 @@ app = Flask(__name__)
 
 conn = sqlite3.connect('climate.db')
 
-#df = pd.read_sql_query("select * from climate", conn)
-df = read_csv('climate.csv')
+df = pd.read_sql_query("select * from climate", conn)
+
 
 @app.route("/")
 
